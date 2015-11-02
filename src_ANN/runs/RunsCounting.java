@@ -27,7 +27,7 @@ public class RunsCounting
 		if(args.length > 0)
 			Runner.mainDir = new String(args[0]);
 		else
-			Runner.mainDir = new String("Z:\\ANN_Exp\\Size\\");
+			Runner.mainDir = new String("Z:\\ANN_Exp\\Counting\\");
 
 
 		if(args.length > 1)

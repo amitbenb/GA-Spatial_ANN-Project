@@ -2,6 +2,7 @@ package gaPack.fitness;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import ann.Spatial_ANN_Builder;
@@ -60,7 +61,6 @@ public abstract class TestSuiteAnnFitness implements ANN_Fitness
 		
 //		System.out.println(benchmarkInFilePaths.length);
 
-		// TODO This doesn't work. Fix this.
 		for (int i = 0; i < benchmarkInFilePaths.length; i++)
 		{
 			try
@@ -153,7 +153,9 @@ public abstract class TestSuiteAnnFitness implements ANN_Fitness
 			if(!benchmarkFlag)
 				learningSuiteWeights.add(inF.nextDouble());
 			else
+			{
 				benchSuiteWeights.add(inF.nextDouble());
+			}
 			inF.nextLine();	// Clear line
 
 			
@@ -188,7 +190,11 @@ public abstract class TestSuiteAnnFitness implements ANN_Fitness
 			ind.runNetwork(input);
 			double[] actualOutput = ind.getAnn().getOutputs(); 
 
-			fit += suiteFitnessBonus(input, perfectOutput, actualOutput);
+			// Old unweighted verison
+// 			fit += suiteFitnessBonus(input, perfectOutput, actualOutput); 
+
+			// New weighted version
+			fit += suiteFitnessBonus(input, perfectOutput, actualOutput) * learningSuiteWeights.get(i);
 			
 			
 //			behaviorProfile[i] = hashOutput(actualOutput);
@@ -205,11 +211,25 @@ public abstract class TestSuiteAnnFitness implements ANN_Fitness
 		
 		ind.setMarkerArray(behaviorProfile);
 		
-		fit = fit/learningSuite.size();
+		// Old unweighted verison
+//		fit = fit/learningSuite.size();
+
+		// New weighted version
+		fit = fit/weightSum(learningSuiteWeights);
 
 		return (int) (100000 * fit) / 100.0;
 //		return fit;
 	}
+
+	private double weightSum(ArrayList<Double> weights)
+	{
+		double sum = 0.0;
+		
+		for(int i=0; i < weights.size(); i++)
+			sum += weights.get(i);
+		return sum;
+	}
+
 
 	abstract protected double suiteFitnessBonus(double[] input, double[] perfectOutput,
 			double[] actualOutput);
@@ -239,10 +259,20 @@ public abstract class TestSuiteAnnFitness implements ANN_Fitness
 //			}
 //			System.out.println();
 
-			fit += suiteBenchmarkBonus(input, perfectOutput, actualOutput, null);
+			// Old unweighted verison
+//			fit += suiteBenchmarkBonus(input, perfectOutput, actualOutput, null);
+
+			// New weighted version
+			fit += suiteBenchmarkBonus(input, perfectOutput, actualOutput, null) * benchSuiteWeights.get(i);
 		}
 		
-		return (int)(100000 * fit / benchSuite.size()) / 100.0;
+		// Old unweighted verison
+//		fit = fit/benchSuite.size();
+
+		// New weighted version
+		fit = fit/weightSum(benchSuiteWeights);
+		
+		return (int)(100000 * fit) / 100.0;
 	}
 
 	abstract protected double suiteBenchmarkBonus(double[] input, double[] perfectOutput,
