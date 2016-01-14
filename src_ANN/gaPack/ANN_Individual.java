@@ -4,6 +4,7 @@ import gaPack.fitness.*;
 import ann.*;
 import popPack.BasicBuilder;
 import popPack.indPack.GA_Individual;
+import popPack.indPack.GA_Individual.GA_Atom;
 import runs.Utility;
 
 public class ANN_Individual extends GA_Individual
@@ -11,7 +12,6 @@ public class ANN_Individual extends GA_Individual
 	ANN_Builder m_builder;
 	ANN_Fitness m_fitness;
 
-	public static int init_genome_size = 60;
 	public static int dimentionality = 0; // Decided from outside by builder info.
 	// Soft limits for initial link weight and node threshold.
 	public static double WEIGHT_LIMIT = 10.0; 
@@ -252,6 +252,17 @@ public class ANN_Individual extends GA_Individual
 	}
 
 	// Setters
+
+	@Override
+	public void setGenome(GA_Atom[] genome)
+	{
+		m_genome = new ANN_Genome_Atom[genome.length];
+		for (int i = 0; i < genome.length; i++)
+		{
+			m_genome[i] = genome[i];
+		}
+	}
+
 	
 	public void setStaticFitness(double fit)
 	{

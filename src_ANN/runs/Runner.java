@@ -8,6 +8,7 @@ import gaPack.fitness.TestSuiteAnnFitness;
 import java.io.*;
 import java.util.Scanner;
 
+import popPack.indPack.*;
 import ann.ANN_Builder;
 import ann.GeneticAnnIncoder;
 import ann.Spatial_ANN_Builder;
@@ -106,6 +107,8 @@ public class Runner
 			p.selection();
 			p.procreation();
 			p.evaluation();
+			
+			System.out.println("\n" + p.getBestIndividual().getGenome().length);
 
 			if (Runner.DEBUG_OUTPUT)
 			{
@@ -451,8 +454,10 @@ public class Runner
 		Scanner inF = new Scanner(new File(mainDir + fileName));
 		
 		inF.nextLine();	// Getting rid of non-data line.
-		ANN_Individual.init_genome_size = inF.nextInt();
+		GA_Individual.init_genome_size = inF.nextInt();
 		inF.nextLine();	// Clear line
+		
+		//TODO add parameter to limit genome size.
 
 		inF.nextLine();	// Getting rid of non-data line.
 		Spatial_ANN_Builder.neuronLimit = inF.nextInt();
