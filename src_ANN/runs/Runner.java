@@ -108,7 +108,7 @@ public class Runner
 			p.procreation();
 			p.evaluation();
 			
-			System.out.println("\n" + p.getBestIndividual().getGenome().length);
+//			System.out.println("\n" + p.getBestIndividual().getGenome().length);
 
 			if (Runner.DEBUG_OUTPUT)
 			{
