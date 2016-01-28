@@ -736,7 +736,8 @@ public class SpatialAnn extends BasicAnn implements Iterable<SpatialAnn.SpatialN
 			{
 				if (n.outlinks[i] != null && n.outlinks[i].destination == sourceNeuron)
 				{
-					n.addLink(destNeuron, n.outlinks[i].weight);
+					if(m_linkNumber < getLinkNumberLimit())
+						n.addLink(destNeuron, n.outlinks[i].weight);
 				}
 			}
 			
