@@ -2,6 +2,8 @@ package runs;
 
 import java.io.FileWriter;
 
+import popPack.Base_Runner;
+
 public class RunsSize
 {
 	public static void main(String[] args)
@@ -23,7 +25,7 @@ public class RunsSize
 
 	private static void mainWork(String[] args) throws Exception
 	{
-		FileWriter fitOut = Runner.fitOut;
+//		FileWriter fitOut = Runner.fitOut;
 		if(args.length > 0)
 			Runner.mainDir = new String(args[0]);
 		else
@@ -42,11 +44,11 @@ public class RunsSize
 
 		for (int i = 0; i < Runner.NUMBER_OF_EXPERIMENTS; i++)
 		{
-			Runner[] r = Runner.runningStages;
+			Base_Runner[] r = Runner.runningStages;
 
 			for (int j = 0; j < r.length; j++)
 			{
-				r[j].runEvoCycle(i,j);
+				((Runner)r[j]).runEvoCycle(i,j);
 			}
 			
 			// For next experiment clear memory.

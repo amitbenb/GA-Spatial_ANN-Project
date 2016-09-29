@@ -12,7 +12,7 @@ public class SizeGeneratorMulti extends SizeGenerator
 	
 	public static void main(String[] args) throws Exception
 	{
-		SizeGenerator.minNumber = 1; SizeGenerator.maxNumber = 10; SizeGenerator.firstBigNumber = 6;
+		SizeGenerator.minNumber = 1; SizeGenerator.maxNumber = 10; SizeGenerator.firstBigNumber = 5;
 		SizeGenerator.numOfNumbers = SizeGenerator.maxNumber -  SizeGenerator.minNumber + 1;
 		
 		SizeGenerator gen = new SizeGeneratorMulti();

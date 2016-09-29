@@ -49,7 +49,7 @@ public class ClassifyFitness extends TestSuiteAnnFitness implements ANN_Fitness
 
 	@Override
 	/**
-	 * Checking the bunus for a certain test.
+	 * Checking the bonus for a certain test.
 	 * 
 	 * @param input
 	 *            Test input

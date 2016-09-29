@@ -2,6 +2,8 @@ package runs;
 
 import java.io.FileWriter;
 
+import popPack.Base_Runner;
+
 public class RunsCounting
 {
 	public static void main(String[] args)
@@ -42,11 +44,11 @@ public class RunsCounting
 
 		for (int i = 0; i < Runner.NUMBER_OF_EXPERIMENTS; i++)
 		{
-			Runner[] r = Runner.runningStages;
+			Base_Runner[] r = Base_Runner.runningStages;
 
 			for (int j = 0; j < r.length; j++)
 			{
-				r[j].runEvoCycle(i,j);
+				((Runner)r[j]).runEvoCycle(i,j);
 			}
 			
 			// For next experiment clear memory.

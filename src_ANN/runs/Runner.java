@@ -8,66 +8,23 @@ import gaPack.fitness.TestSuiteAnnFitness;
 import java.io.*;
 import java.util.Scanner;
 
+import popPack.Base_Runner;
 import popPack.indPack.*;
 import ann.ANN_Builder;
 import ann.GeneticAnnIncoder;
 import ann.Spatial_ANN_Builder;
 
-public class Runner
+public class Runner extends Base_Runner
 {
-	public static boolean DEBUG_OUTPUT = true;
+//	public static Runner[] runningStages;
 
-	public static FileWriter fitOut;
-	public static FileWriter smallOut;
-	public static FileWriter dataOut;
+//	public ANN_Fitness fitnessObj;
 	
-	public static String mainDir = new String("D:\\");
-	public static String ParameterFilePath = new String("D:\\parameters.txt");
-	
-	public static ANN_Population savePop = null;
-	
-	public static int NUMBER_OF_EXPERIMENTS = 1; // Number of experiments.
-
-	public static int NUMBER_OF_STAGES = 1;
-	
-	public static Runner[] runningStages;
-
-	public String popDirFullPath = null;
-	public String popDirPartPath = new String("pop\\");
-	
-	public double ELITE_RATIO;
-	
-	public int SIZE_OF_POPULATION = 400;
-	public int NUMBER_OF_GENERATIONS = 200;
-	
-	public boolean FITNESS_STOP_FLAG = false;
-	public boolean BENCHMARK_STOP_FLAG = false;
-	public double FITNESS_STOP_THRESHOLD = 0.0;
-	public double BENCHMARK_STOP_THRESHOLD = 0.0;
-
-	public int TYPE_OF_MUTATION = 0;
-	public double MUTATION_PROB = 0.02;
-	public int TYPE_OF_CROSSOVER = 0;
-	public double CROSSOVER_PROB = 0.8;
-	
-	public int SELECTION_TYPE = 1; // 1 is tournament Selection
-	public int TOURNAMENT_SIZE = 2;
-	public int NUMBER_OF_TOUR_WINNERS = 1;
-	
-	public boolean USE_CROWDING_FLAG = false; 
-	public double MAXIMAL_NEIGHBOR_DISTANCE_RATIO = 0.4;
-	public int MAXIMUM_NEIGHBOR_NUMBER = 10;
-
-	public String FITNESS_CLASS_NAME;
-	public ANN_Fitness fitnessObj;
-	
-	public double WEIGHT_OF_CORRECT_TEST = 0.8;
-
 	
 	public void runEvoCycle(int expNumber, int stageNumber) throws IOException 
 	{
 		
-		String fileIdentifier = Runner.getFileIdentifier(expNumber,stageNumber);
+		String fileIdentifier = Base_Runner.getFileIdentifier(expNumber,stageNumber);
 
 		ANN_Builder b = new Spatial_ANN_Builder();
 		ANN_Population p = new ANN_Population(this, b);
@@ -77,15 +34,15 @@ public class Runner
 		String ExperimentDataFilePath = new String(this.popDirFullPath + "ExpData_" + stageNumber + ".txt");
 		
 
-		if (Runner.DEBUG_OUTPUT)
+		if (Base_Runner.DEBUG_OUTPUT)
 			System.out.println("Evo cycle identifier: " + fileIdentifier);
-		if (Runner.DEBUG_OUTPUT)
+		if (Base_Runner.DEBUG_OUTPUT)
 			System.out.print("Gen " + 0);
 		p.evaluation();
 		//			System.out.print(p.getBestIndividual().getFitness() + "\t");
 		//			System.out.println(p.getAvgFitness() + " ");
 		
-		if (Runner.DEBUG_OUTPUT)
+		if (Base_Runner.DEBUG_OUTPUT)
 		{
 			System.out.print(" (Best Fitness " + p.getBestIndividual().getFitness());
 			System.out.println(" Benchmark score " + p.getBenchmarkScore() + ")");
@@ -100,7 +57,7 @@ public class Runner
 		boolean stageStillActive = true;
 		for (int gen = 1; gen <= this.NUMBER_OF_GENERATIONS && stageStillActive; gen++)
 		{
-			if (Runner.DEBUG_OUTPUT)
+			if (Base_Runner.DEBUG_OUTPUT)
 			{
 				System.out.print("Gen " + gen);
 			}
@@ -110,7 +67,7 @@ public class Runner
 			
 //			System.out.println("\n" + p.getBestIndividual().getGenome().length);
 
-			if (Runner.DEBUG_OUTPUT)
+			if (Base_Runner.DEBUG_OUTPUT)
 			{
 				System.out.print(" (Best Fitness " + p.getBestIndividual().getFitness());
 				System.out.println(" Benchmark score " + p.getBenchmarkScore() + ")");
@@ -126,13 +83,13 @@ public class Runner
 			
 			if(this.FITNESS_STOP_FLAG && p.getBestIndividual().getFitness() >= this.FITNESS_STOP_THRESHOLD)
 			{
-				if (Runner.DEBUG_OUTPUT)
+				if (Base_Runner.DEBUG_OUTPUT)
 					System.out.println("Fitness condition met! Stage terminated!");
 				stageStillActive = false;
 			}
 			if(this.BENCHMARK_STOP_FLAG && p.getBenchmarkScore() >= this.BENCHMARK_STOP_THRESHOLD)
 			{
-				if (Runner.DEBUG_OUTPUT)
+				if (Base_Runner.DEBUG_OUTPUT)
 					System.out.println("Benchmark condition met! Stage terminated!");
 				stageStillActive = false;
 			}
@@ -154,11 +111,11 @@ public class Runner
 		smallOut.close();
 
 		// Saving population for next runner.
-		Runner.savePop = p;
-		Runner.RandomizeArray(p.getPop());
+		Base_Runner.savePop = p;
+		Base_Runner.RandomizeArray(p.getPop());
 		
 		// If enabled population restarts
-//		Runner.savePop = null;
+//		Base_Runner.savePop = null;
 	}
 	
 	private void writeRunInfo(FileWriter outF, FileWriter dataOutF, ANN_Population pop) throws IOException
@@ -280,21 +237,21 @@ public class Runner
 //		System.out.println(formatCode);
 
 		inF.nextLine();	// Getting rid of non-data line.
-		Runner.DEBUG_OUTPUT = inF.nextBoolean(); 
+		Base_Runner.DEBUG_OUTPUT = inF.nextBoolean(); 
 		inF.nextLine();	// Clear line
 		
 		inF.nextLine();	// Getting rid of non-data line.
-		Runner.NUMBER_OF_EXPERIMENTS = inF.nextInt(); // Not useful at the moment
+		Base_Runner.NUMBER_OF_EXPERIMENTS = inF.nextInt(); // Not useful at the moment
 		inF.nextLine();	// Clear line
 		
 		inF.nextLine();	// Getting rid of non-data line.
-		Runner.NUMBER_OF_STAGES = inF.nextInt(); // Not useful at the moment
+		Base_Runner.NUMBER_OF_STAGES = inF.nextInt(); // Not useful at the moment
 		inF.nextLine();	// Clear line
 		
-		Runner.runningStages = new Runner[Runner.NUMBER_OF_STAGES];
+		Base_Runner.runningStages = new Runner[Base_Runner.NUMBER_OF_STAGES];
 		
 		inF.nextLine();	// Getting rid of non-data line.
-		for (int i = 0; i < Runner.runningStages.length;)
+		for (int i = 0; i < Base_Runner.runningStages.length;)
 		{
 //			System.out.println(i);
 			int numOfSameStages = inF.nextInt();
@@ -302,16 +259,16 @@ public class Runner
 			inF.nextLine();	// ClearLine
 			for (int j = i; i < j + numOfSameStages; i++)
 			{
-				Runner.runningStages[i] = new Runner();
-				Runner r_i = Runner.runningStages[i];
+				Base_Runner.runningStages[i] = new Runner();
+				Base_Runner r_i = Base_Runner.runningStages[i];
 				r_i.popDirPartPath = new String(popPathTemp);
-				r_i.popDirFullPath = new String(Runner.mainDir + r_i.popDirPartPath);
+				r_i.popDirFullPath = new String(Base_Runner.mainDir + r_i.popDirPartPath);
 			}
 		}
 		
 		// Evolutionary parameters.
 		inF.nextLine();	// Getting rid of non-data line.
-		for (int i = 0; i < Runner.runningStages.length;)
+		for (int i = 0; i < Base_Runner.runningStages.length;)
 		{
 //			System.out.println("boop" + i);
 			int numOfSameStages = inF.nextInt();
@@ -319,20 +276,20 @@ public class Runner
 			inF.nextLine();	// ClearLine
 			for (int j = i; i < j + numOfSameStages; i++)
 			{
-				collectEvoParameters(evoFileName, i);
+				runningStages[i].collectEvoParameters(evoFileName, i);
 			}
 		}
 		
 		// Fitness and output parameters.
 		inF.nextLine();	// Getting rid of non-data line.
-		for (int i = 0; i < Runner.runningStages.length;)
+		for (int i = 0; i < Base_Runner.runningStages.length;)
 		{
 			int numOfSameStages = inF.nextInt();
 			String fitFileName = new String(inF.next());
 			inF.nextLine();	// ClearLine
 			for (int j = i; i < j + numOfSameStages; i++)
 			{
-				collectFitParameters(fitFileName, i);
+				runningStages[i].collectFitParameters(fitFileName, i);
 			}
 		}
 
@@ -341,16 +298,18 @@ public class Runner
 		String annFileName = new String(inF.nextLine()); 
 		collectAnnParameters(annFileName);
 		
+		inF.close();
+		
 	}
 
 
-	private static void collectFitParameters(String fileName, int idx) throws Exception
+	public void collectFitParameters(String fileName, int idx) throws Exception
 	{
 		// TODO Auto-generated method stub
 		
 		Scanner inF = new Scanner(new File(mainDir + fileName));
 
-		Runner r = Runner.runningStages[idx];
+		Base_Runner r = Base_Runner.runningStages[idx];
 		inF.nextLine(); // Getting rid of non-data line. 
 		r.FITNESS_CLASS_NAME = new String(inF.nextLine());
 		Class theClass = Class.forName(r.FITNESS_CLASS_NAME);
@@ -377,73 +336,6 @@ public class Runner
 			fit.extractBenchmarkFileNames(inF);
 			
 		}
-
-		inF.close();
-	}
-
-
-	private static void collectEvoParameters(String fileName, int idx)throws Exception
-	{
-		// TODO Auto-generated method stub
-
-		Scanner inF = new Scanner(new File(mainDir + fileName));
-
-		Runner r = Runner.runningStages[idx];
-
-		inF.nextLine(); // Getting rid of non-data line.
-		r.SIZE_OF_POPULATION = inF.nextInt();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine(); // Getting rid of non-data line.
-		r.NUMBER_OF_GENERATIONS = inF.nextInt();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine(); // Getting rid of non-data line.
-		r.FITNESS_STOP_FLAG = inF.nextBoolean();
-		if (r.FITNESS_STOP_FLAG)
-			r.FITNESS_STOP_THRESHOLD = inF.nextInt();
-		inF.nextLine();	// Clear line
-		
-		inF.nextLine(); // Getting rid of non-data line.
-		r.BENCHMARK_STOP_FLAG = inF.nextBoolean();
-		if (r.BENCHMARK_STOP_FLAG)
-			r.BENCHMARK_STOP_THRESHOLD = inF.nextInt();
-		inF.nextLine();	// Clear line
-		
-		inF.nextLine();	// Getting rid of non-data line.
-		r.ELITE_RATIO = inF.nextDouble();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.TYPE_OF_MUTATION = inF.nextInt(); // Not useful at the moment
-		r.MUTATION_PROB = inF.nextDouble(); 
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.TYPE_OF_CROSSOVER = inF.nextInt(); // Not useful at the moment
-		r.CROSSOVER_PROB = inF.nextDouble();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.SELECTION_TYPE = inF.nextInt();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.TOURNAMENT_SIZE = inF.nextInt();
-		r.NUMBER_OF_TOUR_WINNERS = inF.nextInt();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.USE_CROWDING_FLAG = inF.nextBoolean();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.MAXIMAL_NEIGHBOR_DISTANCE_RATIO = inF.nextDouble();
-		inF.nextLine();	// Clear line
-
-		inF.nextLine();	// Getting rid of non-data line.
-		r.MAXIMUM_NEIGHBOR_NUMBER = inF.nextInt();
-		inF.nextLine();	// Clear line
 
 		inF.close();
 	}
@@ -510,49 +402,6 @@ public class Runner
 		Spatial_ANN_Builder.ANN_BUILD_INCODER = incoder;
 		
 		inF.close();
-	}
-
-	/**
-	 * Randomizing order of input array.
-	 * 
-	 * @param arr
-	 */
-	public static void RandomizeArray(Object[] arr)
-	{
-		for (int i = 0; i < arr.length - 1; i++)
-		{
-			int j = i + (int)(Math.random()*Integer.MAX_VALUE) % (arr.length - i - 1);
-			
-			// Swap
-			Object tmp = arr[i];
-			arr[i] = arr[j];
-			arr[j] = tmp;
-		}
-	}
-
-	static String getFileIdentifier(int expNumber, int stageNumber)
-	{
-		String retVal = new String("");
-		
-		// Only if multiple experiments add this counter;
-		if(NUMBER_OF_EXPERIMENTS != 1)
-		{
-			retVal = retVal + "_";
-			if (expNumber<100)
-				retVal = retVal + "0";
-			if (expNumber<10)
-				retVal = retVal + "0";
-			retVal = retVal + expNumber;
-		}
-	
-		retVal = retVal + "_";
-		if (stageNumber<100)
-			retVal = retVal + "0";
-		if (stageNumber<10)
-			retVal = retVal + "0";
-		retVal = retVal + stageNumber;
-		
-		return retVal;
 	}
 
 	

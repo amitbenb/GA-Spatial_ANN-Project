@@ -4,6 +4,8 @@ package gaPack;
 import gaPack.fitness.ANN_Fitness;
 import ann.ANN_Builder;
 import ann.Spatial_ANN_Builder;
+import popPack.Base_Fitness;
+import popPack.Base_Runner;
 import popPack.GA_Population;
 import popPack.indPack.GA_Individual;
 import runs.Runner;
@@ -15,7 +17,6 @@ public class ANN_Population extends GA_Population
 	ANN_Individual[] m_archive;
 
 	ANN_Builder m_builder = new Spatial_ANN_Builder();
-	ANN_Fitness m_fitness = null;
 	
 	
 	// C'tor
@@ -57,7 +58,7 @@ public class ANN_Population extends GA_Population
 		m_xoProb = r.CROSSOVER_PROB;
 		m_mutProb = r.MUTATION_PROB;
 		m_eliteRatio = r.ELITE_RATIO;
-		m_fitness = r.fitnessObj;
+		m_fitness = (ANN_Fitness)r.fitnessObj;
 		tournamentSize = r.TOURNAMENT_SIZE;
 		tournamentWinnerNum = r.NUMBER_OF_TOUR_WINNERS;
 		
@@ -78,7 +79,7 @@ public class ANN_Population extends GA_Population
 		}
 		else //(Runner.savePop == p)
 		{
-			ANN_Population p = Runner.savePop;
+			ANN_Population p = (ANN_Population)Base_Runner.savePop;
 			for (int i = 0; i < m_pop.length; i++)
 			{
 				m_pop[i] = p.getIndividual(i % p.getPopSize()).selfReplicate();
@@ -98,7 +99,7 @@ public class ANN_Population extends GA_Population
 
 	public ANN_Fitness getFitnessObj()
 	{
-		return m_fitness;
+		return (ANN_Fitness)m_fitness;
 	}
 
 	// Setters.
@@ -118,6 +119,8 @@ public class ANN_Population extends GA_Population
 		{
 //			if(getFitnessObj() == null)
 //				System.out.println("Boop!");
+//			else
+//				System.out.println("Bip!");
 			getFitnessObj().generateSuites((ANN_Individual)getIndividual(0));
 			super.evaluation();
 			

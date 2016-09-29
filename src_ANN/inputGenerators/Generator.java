@@ -5,9 +5,9 @@ import java.io.FileWriter;
 public class Generator
 {
 
-	static int numOfTests = 50;
+	static int numOfTests = 100;
 	static double[] weightOfTests = {1.0};
-	static int[] inGridSize = {5,6};
+	static int[] inGridSize = {4,4};
 	public static int[] outGridSize = {10,5};
 	
 	static String mainDir = new String("Z:\\ANN_Exp\\");

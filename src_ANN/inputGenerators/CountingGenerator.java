@@ -7,8 +7,8 @@ public class CountingGenerator
 	// TODO Not just continuous blobs at the moment. Does not differentiate
 	// between continuous and discrete. deFix? Add option?	
 
-	static int minInputNumber = 1, maxInputNumber = 7;
-	static int minOutputNumber = 1, maxOutputNumber = 7;
+	static int minInputNumber = 0, maxInputNumber = 9;
+	static int minOutputNumber = 0, maxOutputNumber = 9;
 	static int numOfNumbers = maxInputNumber -  minInputNumber + 1;
 	
 	public static void main(String[] args) throws Exception

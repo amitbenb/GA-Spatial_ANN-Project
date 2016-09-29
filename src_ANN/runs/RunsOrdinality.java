@@ -2,6 +2,7 @@ package runs;
 
 import java.io.FileWriter;
 
+import popPack.Base_Runner;
 import gaPack.*;
 import ann.ANN_Builder;
 import ann.Spatial_ANN_Builder;
@@ -56,12 +57,12 @@ public class RunsOrdinality
 //		if (1<2)
 //			return;
 		
-		Runner[] r = Runner.runningStages;
+		Base_Runner[] r = Runner.runningStages;
 		ANN_Builder b = new Spatial_ANN_Builder();
 //		ANN_Population p =
 //				new ANN_Population(r[0].SIZE_OF_POPULATION, 0, r[0].CROSSOVER_PROB,
 //						r[0].MUTATION_PROB, 0, b, r[0].fitnessObj);
-		ANN_Population p = new ANN_Population(r[0], b);
+		ANN_Population p = new ANN_Population((Runner)r[0], b);
 
 		if (Runner.DEBUG_OUTPUT)
 			System.out.println("Gen " + 0);

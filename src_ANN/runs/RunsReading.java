@@ -1,5 +1,7 @@
 package runs;
 
+import popPack.Base_Runner;
+
 public class RunsReading
 {
 	public static void main(String[] args)
@@ -40,11 +42,11 @@ public class RunsReading
 
 		for (int i = 0; i < Runner.NUMBER_OF_EXPERIMENTS; i++)
 		{
-			Runner[] r = Runner.runningStages;
+			Base_Runner[] r = Runner.runningStages;
 
 			for (int j = 0; j < r.length; j++)
 			{
-				r[j].runEvoCycle(i,j);
+				((Runner)r[j]).runEvoCycle(i,j);
 			}
 			
 			// For next experiment clear memory.
