@@ -1,5 +1,6 @@
 package gaPack.fitness;
 
+import popPack.indPack.GA_Individual;
 import ann.Spatial_ANN_Builder;
 import gaPack.ANN_Individual;
 
@@ -170,8 +171,9 @@ public class ClassifyFitness extends TestSuiteAnnFitness implements ANN_Fitness
 	}
 
 	@Override
-	public String generateFitnessDataLine(ANN_Individual ind)
+	public String generateFitnessDataLine(GA_Individual ind_)
 	{
+		ANN_Individual ind = (ANN_Individual)ind_; 
 		String retVal = new String("");
 
 		double fit = 0.0;
@@ -214,7 +216,7 @@ public class ClassifyFitness extends TestSuiteAnnFitness implements ANN_Fitness
 		return retVal;
 	}
 	@Override
-	public String generateFitnessDataTableHeader(ANN_Individual best)
+	public String generateFitnessDataTableHeader()
 	{
 		String retVal = new String();
 		retVal =

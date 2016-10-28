@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import popPack.indPack.GA_Individual;
 import ann.Spatial_ANN_Builder;
 import runs.Runner;
 import gaPack.ANN_Individual;
@@ -279,8 +280,9 @@ public abstract class TestSuiteAnnFitness implements ANN_Fitness
 			double[] actualOutput, int[] extraData);
 
 	@Override
-	public String generateFitnessDataText(ANN_Individual ind)
+	public String generateFitnessDataText(GA_Individual ind_)
 	{
+		ANN_Individual ind = (ANN_Individual)ind_; 
 		String retVal = new String("");
 		
 		// 0 for short version

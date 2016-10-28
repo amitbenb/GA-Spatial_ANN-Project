@@ -150,7 +150,7 @@ public class ANN_Population extends GA_Population
 		String retVal = new String("");
 		GA_Individual best = getBestEverIndividual();
 		
-		retVal = getFitnessObj().generateFitnessDataTableHeader((ANN_Individual)best);
+		retVal = getFitnessObj().generateFitnessDataTableHeader();
 		return retVal;
 	}
 

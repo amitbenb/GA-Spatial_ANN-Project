@@ -230,69 +230,14 @@ public class Runner extends Base_Runner
 //		if (1<2)
 //			return;
 		
-		// Getting parameter files format code.
-		inF.nextLine();	// Getting rid of non-data line.
-		int formatCode = inF.nextInt(); 
-		inF.nextLine();	// Clear line
-//		System.out.println(formatCode);
-
-		inF.nextLine();	// Getting rid of non-data line.
-		Base_Runner.DEBUG_OUTPUT = inF.nextBoolean(); 
-		inF.nextLine();	// Clear line
-		
-		inF.nextLine();	// Getting rid of non-data line.
-		Base_Runner.NUMBER_OF_EXPERIMENTS = inF.nextInt(); // Not useful at the moment
-		inF.nextLine();	// Clear line
-		
-		inF.nextLine();	// Getting rid of non-data line.
-		Base_Runner.NUMBER_OF_STAGES = inF.nextInt(); // Not useful at the moment
-		inF.nextLine();	// Clear line
+		Base_Runner.collectBasicExperimentData(inF);
 		
 		Base_Runner.runningStages = new Runner[Base_Runner.NUMBER_OF_STAGES];
+		for (int i = 0; i < Base_Runner.runningStages.length;i++)
+			Base_Runner.runningStages[i] = new Runner();
 		
-		inF.nextLine();	// Getting rid of non-data line.
-		for (int i = 0; i < Base_Runner.runningStages.length;)
-		{
-//			System.out.println(i);
-			int numOfSameStages = inF.nextInt();
-			String popPathTemp = new String(inF.next());
-			inF.nextLine();	// ClearLine
-			for (int j = i; i < j + numOfSameStages; i++)
-			{
-				Base_Runner.runningStages[i] = new Runner();
-				Base_Runner r_i = Base_Runner.runningStages[i];
-				r_i.popDirPartPath = new String(popPathTemp);
-				r_i.popDirFullPath = new String(Base_Runner.mainDir + r_i.popDirPartPath);
-			}
-		}
+		Base_Runner.collectBasicExperimentStageData(inF);
 		
-		// Evolutionary parameters.
-		inF.nextLine();	// Getting rid of non-data line.
-		for (int i = 0; i < Base_Runner.runningStages.length;)
-		{
-//			System.out.println("boop" + i);
-			int numOfSameStages = inF.nextInt();
-			String evoFileName = new String(inF.next()); 
-			inF.nextLine();	// ClearLine
-			for (int j = i; i < j + numOfSameStages; i++)
-			{
-				runningStages[i].collectEvoParameters(evoFileName, i);
-			}
-		}
-		
-		// Fitness and output parameters.
-		inF.nextLine();	// Getting rid of non-data line.
-		for (int i = 0; i < Base_Runner.runningStages.length;)
-		{
-			int numOfSameStages = inF.nextInt();
-			String fitFileName = new String(inF.next());
-			inF.nextLine();	// ClearLine
-			for (int j = i; i < j + numOfSameStages; i++)
-			{
-				runningStages[i].collectFitParameters(fitFileName, i);
-			}
-		}
-
 		// ANN parameters.
 		inF.nextLine();	// Getting rid of non-data line.
 		String annFileName = new String(inF.nextLine()); 
@@ -313,7 +258,7 @@ public class Runner extends Base_Runner
 		inF.nextLine(); // Getting rid of non-data line. 
 		r.FITNESS_CLASS_NAME = new String(inF.nextLine());
 		Class theClass = Class.forName(r.FITNESS_CLASS_NAME);
-		theClass.newInstance();
+//		theClass.newInstance(); // This seems unnecessary. Commented.
 		r.fitnessObj = (ANN_Fitness)theClass.newInstance();
 
 		if (r.fitnessObj instanceof TestSuiteAnnFitness)

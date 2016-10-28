@@ -1,5 +1,6 @@
 package gaPack.fitness;
 
+import popPack.indPack.GA_Individual;
 import gaPack.ANN_Individual;
 
 public class CopyFitness implements ANN_Fitness
@@ -63,20 +64,20 @@ public class CopyFitness implements ANN_Fitness
 	}
 
 	@Override
-	public String generateFitnessDataText(ANN_Individual ind)
+	public String generateFitnessDataText(GA_Individual ind_)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String generateFitnessDataLine(ANN_Individual ind)
+	public String generateFitnessDataLine(GA_Individual ind_)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String generateFitnessDataTableHeader(ANN_Individual best)
+	public String generateFitnessDataTableHeader()
 	{
 		// TODO Auto-generated method stub
 		return null;
